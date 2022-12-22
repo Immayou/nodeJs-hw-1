@@ -1,0 +1,1 @@
+const contactsFile = require("./contacts");
