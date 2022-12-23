@@ -1,5 +1,6 @@
 const fs = require("fs").promises;
 const path = require("path");
+const { nanoid } = require("nanoid");
 
 const contactsPath = path.resolve("./db/contacts.json");
 
@@ -28,23 +29,45 @@ const contactsPath = path.resolve("./db/contacts.json");
 
 // getContactById(7);
 
-async function removeContact(contactId) {
-  try {
-    const copyOfContacts = (await fs.readFile(contactsPath, "utf8")).slice("");
-    const indexOfContactToDelete = await JSON.parse(copyOfContacts).findIndex(
-      ({ id }) => String(contactId) === id
-    );
-    console.log(indexOfContactToDelete);
+// async function removeContact(contactId) {
+//   try {
+//     const contacts = JSON.parse(
+//       await fs.readFile(contactsPath, "utf8")
+//     ).slice(0);
+//     const indexOfContactToDelete = await contacts.findIndex(
+//       ({ id }) => String(contactId) === id
+//     );
+//     await contacts.splice(indexOfContactToDelete, 1);
+//     console.log(contacts);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 
-    await JSON.parse(copyOfContacts).splice(indexOfContactToDelete, 1);
-    console.log(copyOfContacts);
+// removeContact(9);
+
+async function addContact(name, email, phone) {
+  try {
+    const id = nanoid();
+    const contacts = JSON.parse(await fs.readFile(contactsPath, "utf8"));
+    const contactToAdd = {
+      id,
+      name,
+      email,
+      phone,
+    };
+    const contactsWithAddedNewOne = [...contacts, contactToAdd];
+    const newContacts = await fs.writeFile(
+      "./db/contacts1.json",
+      JSON.stringify(contactsWithAddedNewOne),
+      "utf8"
+    );
+    console.log(newContacts);
   } catch (error) {
     console.error(error);
   }
 }
-removeContact(1);
-
-// function addContact(name, email, phone) {}
+addContact("Yulia", "nulla.ante@vestibul.co.uk", "093-69-40");
 
 module.exports = {
   //   listContacts,
@@ -52,3 +75,5 @@ module.exports = {
   //   removeContact,
   //   addContact,
 };
+
+addContact;
