@@ -4,52 +4,53 @@ const { nanoid } = require("nanoid");
 
 const contactsPath = path.resolve("./db/contacts.json");
 
-// async function listContacts() {
-//   try {
-//     const contacts = await fs.readFile(contactsPath, "utf8");
-//     console.log(JSON.parse(contacts));
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+async function listContacts() {
+  try {
+    const contacts = JSON.parse(await fs.readFile(contactsPath, "utf8"));
+    console.log(contacts);
+    return contacts;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-// listContacts();
+async function getContactById(contactId) {
+  try {
+    const contacts = await listContacts();
+    const result = await contacts.find(({ id }) => id === String(contactId));
+    if (!result) {
+      console.log("Not found the contact!");
+      return;
+    }
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-// async function getContactById(contactId) {
-//   try {
-//     const contacts = await fs.readFile(contactsPath, "utf8");
-//     const result = await JSON.parse(contacts).find(
-//       ({ id }) => id === String(contactId)
-//     );
-//     console.log(result);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// getContactById(7);
-
-// async function removeContact(contactId) {
-//   try {
-//     const contacts = JSON.parse(
-//       await fs.readFile(contactsPath, "utf8")
-//     ).slice(0);
-//     const indexOfContactToDelete = await contacts.findIndex(
-//       ({ id }) => String(contactId) === id
-//     );
-//     await contacts.splice(indexOfContactToDelete, 1);
-//     console.log(contacts);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// removeContact(9);
+async function removeContact(contactId) {
+  try {
+    const contacts = await listContacts();
+    const indexOfContactToDelete = await contacts.findIndex(
+      ({ id }) => String(contactId) === id
+    );
+    if (indexOfContactToDelete === -1) {
+      console.log("Not found the contact to delete!");
+      return;
+    }
+    await contacts.splice(indexOfContactToDelete, 1);
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 4));
+    return;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 async function addContact(name, email, phone) {
   try {
+    const contacts = await listContacts();
     const id = nanoid();
-    const contacts = JSON.parse(await fs.readFile(contactsPath, "utf8"));
     const contactToAdd = {
       id,
       name,
@@ -57,23 +58,19 @@ async function addContact(name, email, phone) {
       phone,
     };
     const contactsWithAddedNewOne = [...contacts, contactToAdd];
-    const newContacts = await fs.writeFile(
-      "./db/contacts1.json",
-      JSON.stringify(contactsWithAddedNewOne),
+    await fs.writeFile(
+      contactsPath,
+      JSON.stringify(contactsWithAddedNewOne, null, 4),
       "utf8"
     );
-    console.log(newContacts);
   } catch (error) {
     console.error(error);
   }
 }
-addContact("Yulia", "nulla.ante@vestibul.co.uk", "093-69-40");
 
 module.exports = {
-  //   listContacts,
-  //   getContactById,
-  //   removeContact,
-  //   addContact,
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
 };
-
-addContact;
