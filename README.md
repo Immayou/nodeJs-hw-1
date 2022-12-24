@@ -1,4 +1,4 @@
-#NodeJS-hw-1
+# NodeJS-hw-1
 
 <div style="display: flex; align-items: center;">
 <image style='margin-right: 30px;' src="./images/javascript.png" alt="javascript logo" width='100' height='130'>
@@ -7,12 +7,14 @@
 
 ---
 
-##Description
+## Description
+
 This program allows you to save a list of contacts each of which is **an object of {id, name, phone, e-mail}**.
 
 ---
 
-##Options
+## Options
+
 The following options have been implemented:
 
 ### \* get contacts list in table
