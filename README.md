@@ -1,7 +1,7 @@
 # NodeJS-hw-1
 
 <div style="display: flex; align-items: center;">
-<image style='margin-right: 30px;' src="./images/javascript.png" alt="javascript logo" width='100' height='130'>
+<image style="margin-right: 50px;" src="./images/javascript.png" alt="javascript logo" width='100' height='130'>
 <image src="./images/node-js.png" alt="javascript logo" width='100' height='100'>
 </div>
 
