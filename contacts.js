@@ -81,7 +81,7 @@ async function addContact(name, email, phone) {
     };
     const contactsWithAddedNewOne = [...contacts, contactToAdd];
     await writeContacts(contactsWithAddedNewOne);
-    console.table(await listContacts());
+    console.table(await readContacts());
   } catch (error) {
     console.error(error);
   }
