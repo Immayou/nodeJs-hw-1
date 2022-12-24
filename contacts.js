@@ -28,7 +28,7 @@ async function writeContacts(value) {
 async function listContacts() {
   try {
     const contacts = await readContacts();
-    console.log(contacts);
+    console.table(contacts);
     return contacts;
   } catch (error) {
     console.log(error);
@@ -43,7 +43,7 @@ async function getContactById(contactId) {
       console.log("Not found the contact!");
       return;
     }
-    console.log(result);
+    console.table(result);
     return result;
   } catch (error) {
     console.error(error);
@@ -62,7 +62,7 @@ async function removeContact(contactId) {
     }
     await contacts.splice(indexOfContactToDelete, 1);
     await writeContacts(contacts);
-    console.log(await readContacts());
+    console.table(await readContacts());
     return;
   } catch (error) {
     console.error(error);
@@ -81,7 +81,7 @@ async function addContact(name, email, phone) {
     };
     const contactsWithAddedNewOne = [...contacts, contactToAdd];
     await writeContacts(contactsWithAddedNewOne);
-    console.log(await listContacts());
+    console.table(await listContacts());
   } catch (error) {
     console.error(error);
   }
